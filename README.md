@@ -56,6 +56,7 @@ Method Signature:
 get(bookId);
 ```
 
+- bookId: `<Number>` The id of the book to retrieve.
 - Returns a Promise which resolves to a JSON object containing a book object.
 ### `update`
 
