@@ -19,9 +19,11 @@ class Search extends Component {
 					const books = fetchedBooks.map(book => {
 						return {
 							id: book.id,
-							bookTitle: book.title,
-							bookAuthor: book.authors[0],
-							bookImage: book.imageLinks.thumbnail,
+							bookTitle: book.title || 'No title',
+							bookAuthor:
+								(book.authors && book.authors.length > 0 && book.authors[0]) ||
+								'No author',
+							bookImage: book.imageLinks && (book.imageLinks.thumbnail || ''),
 							bookShelf: book.shelf
 						};
 					});
