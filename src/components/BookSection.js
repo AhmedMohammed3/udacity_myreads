@@ -2,9 +2,6 @@ import React, { Component } from 'react';
 import BookItem from './BookItem';
 
 class BookSection extends Component {
-	handleMoveItem = (selectedIdx, bookId) => {
-		this.props.onMoveItem(selectedIdx, bookId);
-	};
 	render() {
 		return (
 			<div className='bookshelf'>
@@ -15,8 +12,8 @@ class BookSection extends Component {
 							<li key={book.id}>
 								<BookItem
 									book={book}
-									sectionId={this.props.sectionId}
-									onMoveItem={this.handleMoveItem}
+									bookShelf={this.props.bookShelf}
+									onMoveItem={this.props.onMoveItem}
 								/>
 							</li>
 						))}

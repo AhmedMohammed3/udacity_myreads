@@ -1,47 +1,64 @@
 import React, { Component } from 'react';
+import { get } from '../BooksAPI';
 import {
-	CURRENTLY_READING_ID,
-	READ_ID,
-	WANT_TO_READ_ID
-} from '../helpers/CONSTANTS';
+	CURRENTLY_READING,
+	READ,
+	WANT_TO_READ,
+	NONE
+} from '../helpers/Constants';
 
 class BookItem extends Component {
+	state = {
+		bookShelf: this.props.book.bookShelf || NONE
+	};
 	options = [
 		{
-			value: 'currentlyReading',
-			text: 'Currently Reading',
-			selected: this.props.sectionId === CURRENTLY_READING_ID
+			value: CURRENTLY_READING,
+			text: 'Currently Reading'
 		},
 		{
-			value: 'wantToRead',
-			text: 'Want to Read',
-			selected: this.props.sectionId === WANT_TO_READ_ID
+			value: WANT_TO_READ,
+			text: 'Want to Read'
 		},
 		{
-			value: 'read',
-			text: 'Read',
-			selected: this.props.sectionId === READ_ID
+			value: READ,
+			text: 'Read'
 		},
 		{
-			value: 'none',
-			text: 'None',
-			selected:
-				this.props.sectionId !== CURRENTLY_READING_ID &&
-				this.props.sectionId !== WANT_TO_READ_ID &&
-				this.props.sectionId !== READ_ID
+			value: NONE,
+			text: 'None'
 		}
 	];
 	handleMoveItem = e => {
-		this.props.onMoveItem(e.target.options.selectedIndex, this.props.book.id);
-	};
-	render() {
-		let selectedValue = this.options[3].value;
-		for (const option of this.options) {
-			if (option.selected) {
-				selectedValue = option.value;
+		let bookShelf = '';
+		switch (e.target.options.selectedIndex) {
+			case 1:
+				bookShelf = CURRENTLY_READING;
 				break;
-			}
+			case 2:
+				bookShelf = WANT_TO_READ;
+				break;
+			case 3:
+				bookShelf = READ;
+				break;
+			default:
+				bookShelf = NONE;
+				break;
 		}
+		this.props.onMoveItem(bookShelf, this.props.book);
+	};
+
+	componentDidMount() {
+		if (this.props.isFromSearch) {
+			get(this.props.book.id).then(book => {
+				this.setState({
+					bookShelf: book.shelf
+				});
+			});
+		}
+	}
+
+	render() {
 		return (
 			<div className='book'>
 				<div className='book-top'>
@@ -54,7 +71,7 @@ class BookItem extends Component {
 						}}
 					/>
 					<div className='book-shelf-changer'>
-						<select value={selectedValue} onChange={this.handleMoveItem}>
+						<select value={this.state.bookShelf} onChange={this.handleMoveItem}>
 							<option value='move' disabled>
 								Move to...
 							</option>

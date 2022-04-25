@@ -1,3 +1,4 @@
-exports.CURRENTLY_READING_ID = 0;
-exports.WANT_TO_READ_ID = 1;
-exports.READ_ID = 2;
+exports.CURRENTLY_READING = 'currentlyReading';
+exports.WANT_TO_READ = 'wantToRead';
+exports.READ = 'read';
+exports.NONE = 'none';

@@ -1,8 +1,39 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import { search } from '../BooksAPI';
+import BookItem from './BookItem';
 
 class Search extends Component {
-	// render method
+	state = {
+		query: '',
+		books: []
+	};
+
+	handleSearch = e => {
+		const query = e.target.value;
+		this.setState({ query });
+		if (query) {
+			this.setState({ query });
+			search(query).then(fetchedBooks => {
+				if (!fetchedBooks.error) {
+					const books = fetchedBooks.map(book => {
+						return {
+							id: book.id,
+							bookTitle: book.title,
+							bookAuthor: book.authors[0],
+							bookImage: book.imageLinks.thumbnail,
+							bookShelf: book.shelf
+						};
+					});
+					this.setState({ books });
+				} else {
+					this.setState({ books: [] });
+				}
+			});
+		} else {
+			this.setState({ books: [] });
+		}
+	};
 	render() {
 		return (
 			<div className='search-books'>
@@ -11,19 +42,26 @@ class Search extends Component {
 						Close
 					</Link>
 					<div className='search-books-input-wrapper'>
-						{/*
-                  NOTES: The search from BooksAPI is limited to a particular set of search terms.
-                  You can find these search terms here:
-                  https://github.com/udacity/reactnd-project-myreads-starter/blob/master/SEARCH_TERMS.md
-
-                  However, remember that the BooksAPI.search method DOES search by title or author. So, don't worry if
-                  you don't find a specific author or title. Every search is limited by search terms.
-                */}
-						<input type='text' placeholder='Search by title or author' />
+						<input
+							type='text'
+							placeholder='Search by title or author'
+							value={this.state.query}
+							onChange={this.handleSearch}
+						/>
 					</div>
 				</div>
 				<div className='search-books-results'>
-					<ol className='books-grid' />
+					<ol className='books-grid'>
+						{this.state.books.map(book => (
+							<li key={book.id}>
+								<BookItem
+									book={book}
+									onMoveItem={this.props.onMoveItem}
+									isFromSearch={true}
+								/>
+							</li>
+						))}
+					</ol>
 				</div>
 			</div>
 		);
