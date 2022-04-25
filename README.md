@@ -57,7 +57,6 @@ get(bookId);
 ```
 
 - Returns a Promise which resolves to a JSON object containing a book object.
-- 
 ### `update`
 
 Method Signature:
