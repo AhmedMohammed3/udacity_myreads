@@ -85,7 +85,7 @@ class BookItem extends Component {
 				</div>
 				<div className='book-title'>{this.props.book.bookTitle}</div>
 				<div className='book-authors'>
-					{this.props.book.authors &&
+					{this.props.book.bookAuthor &&
 						this.props.book.bookAuthor.length > 0 &&
 						this.props.book.bookAuthor.map((author, idx) => (
 							<div key={idx}>{author}</div>
