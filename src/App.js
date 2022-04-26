@@ -16,13 +16,19 @@ class BooksApp extends React.Component {
 		this.getAllBooks();
 	}
 
+	componentDidUpdate(prevProps, prevState) {
+		if (prevState.books.length !== this.state.books.length) {
+			this.getAllBooks();
+		}
+	}
+
 	getAllBooks = () => {
 		getAll().then(fetchedBooks => {
 			const books = fetchedBooks.map(book => {
 				return {
 					id: book.id,
 					bookTitle: book.title,
-					bookAuthor: book.authors[0],
+					bookAuthor: book.authors,
 					bookImage: book.imageLinks.thumbnail,
 					bookShelf: book.shelf
 				};

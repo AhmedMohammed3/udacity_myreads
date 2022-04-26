@@ -5,7 +5,7 @@ import {
 	READ,
 	WANT_TO_READ,
 	NONE
-} from '../helpers/Constants';
+} from '../helpers/CONSTANTS';
 
 class BookItem extends Component {
 	state = {
@@ -84,7 +84,13 @@ class BookItem extends Component {
 					</div>
 				</div>
 				<div className='book-title'>{this.props.book.bookTitle}</div>
-				<div className='book-authors'>{this.props.book.bookAuthor}</div>
+				<div className='book-authors'>
+					{this.props.book.authors &&
+						this.props.book.bookAuthor.length > 0 &&
+						this.props.book.bookAuthor.map((author, idx) => (
+							<div key={idx}>{author}</div>
+						))}
+				</div>
 			</div>
 		);
 	}

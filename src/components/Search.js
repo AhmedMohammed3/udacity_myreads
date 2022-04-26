@@ -21,8 +21,7 @@ class Search extends Component {
 							id: book.id,
 							bookTitle: book.title || 'No title',
 							bookAuthor:
-								(book.authors && book.authors.length > 0 && book.authors[0]) ||
-								'No author',
+								(book.authors && book.authors.length > 0) || 'No author',
 							bookImage: book.imageLinks && (book.imageLinks.thumbnail || ''),
 							bookShelf: book.shelf
 						};
